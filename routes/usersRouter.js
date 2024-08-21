@@ -9,5 +9,5 @@ router.post(EndPoints.User.addUserBabbySitter,authController.addUserBabbySitter)
 //router.post(EndPoints.User.addUserParent,authController.addUserParent);
 //router.post(EndPoints.User.addUserAdmin,authController.addUserClient);
 router.put(EndPoints.User.updateUserBabySitter,authController.updateUserBabySitter);
-//router.delete(EndPoints.User.deleteUser,authController.deleteUser);
+router.delete(EndPoints.User.deleteUser,authController.deleteUser);
 module.exports=router;

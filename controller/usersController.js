@@ -31,7 +31,7 @@ module.exports.getUserById = async (req, res) => {
 };
 module.exports.addUserBabbySitter = async (req, res) => {
     try {
-        const { name, email, password, address, availability, price, bio } = req.body;
+        const { name, email, password, address, availability, price, bio} = req.body;
         const role = "babysitter";
         const babysitter = new userModel({
             name,
@@ -49,10 +49,28 @@ module.exports.addUserBabbySitter = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+module.exports.addUserParent = async (req, res) => {
+    try {
+        const { name, email, password, address, availability, price, bio} = req.body;
+        const role = "babysitter";
+        const babysitter = new userModel({
+            name,
+            email,
+            password,
+            address,
+            children,
+        });
+        const babysitterAdded = await babysitter.save();
+        res.status(201).json(babysitterAdded);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 module.exports.updateUserBabySitter = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, price, bio } = req.params;
+        const { name, email, phone, price, bio ,address} = req.params;
         const checkIfUserExists = await userModel.findById(id);
         if (!checkIfUserExists) {
             throw new Error("User not found");
@@ -63,3 +81,30 @@ module.exports.updateUserBabySitter = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+module.exports.updateUserParent = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, phone, children, address } = req.params;
+        const checkIfUserExists = await userModel.findById(id);
+        if (!checkIfUserExists) {
+            throw new Error("User not found");
+        }
+        const updateUser = await userModel.findByIdAndUpdate(id, { $set: { nom, prenom, phone, price, bio } });
+        res.status(201).json({ message: error.message });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+module.exports.deleteUser=async(req,res)=>{
+    try {
+        console.log(req.params);
+        const {id}=req.params;
+        const checkIfUserExists=await userModel.findById(id);
+        if (!checkIfUserExists) {
+            throw new Error("User not found");
+        }
+    } catch (error) {
+        res.status(500).json({message:error.message});
+    }
+};
+
