@@ -6,7 +6,7 @@ router.get(EndPoints.User.getAllUsers,authController.getAllUsers);
 router.get(EndPoints.User.getUserById,authController.getUserById);
 router.get(EndPoints.User.searchUserByName,authController.searchUserByName);
 router.post(EndPoints.User.addUserBabbySitter,authController.addUserBabbySitter);
-//router.post(EndPoints.User.addUserParent,authController.addUserParent);
+router.post(EndPoints.User.addUserParent,authController.addUserParent);
 //router.post(EndPoints.User.addUserAdmin,authController.addUserClient);
 router.put(EndPoints.User.updateUserBabySitter,authController.updateUserBabySitter);
 router.delete(EndPoints.User.deleteUser,authController.deleteUser);
