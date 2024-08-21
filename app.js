@@ -1,14 +1,13 @@
-require('dotenv').config(); 
-const http = require('http'); 
-const path = require('path'); 
-const createError = require('http-errors'); 
-const cookieParser = require('cookie-parser'); 
-const logger = require('morgan');
-const { connectToMongoDB } = require('./db/db'); 
-const usersRouter = require('./routes/usersRouter');
-const authRouter = require('./routes/authRouter');
-
+var createError = require('http-errors');
 var express = require('express');
+var path = require('path');
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
+const http=require("http");
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/usersRouter');
+require("dotenv").config(); //2
+const {connectToMongoDB} = require("./db/db")//3
 var app = express();
 
 app.use(logger('dev'));
@@ -17,29 +16,23 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Route handlers
-app.use('/users', usersRouter);
-app.use('/auth', authRouter);
+app.use('/', indexRouter);
+app.use('/usersController', usersRouter);
 
-// Catch 404 and forward to error handler
-app.use(function(req, res, next) {
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-// Error handler
-app.use(function(err, req, res, next) {
-  // Set locals, only providing error in development
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // Render the error page
+  // render the error page
   res.status(err.status || 500);
-  res.render('error'); 
+  res.render('error');
 });
-
-const server = http.createServer(app);
-
-server.listen(process.env.PORT || 5000, () => {
-  connectToMongoDB();
-  console.log(`App is running on port ${process.env.PORT || 5000}`);
-});
+const server = http.createServer(app);  //1
+server.listen(process.env.PORT, () => { connectToMongoDB(), console.log("app is running on port 5000") });
