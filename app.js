@@ -1,33 +1,45 @@
-require("dotenv").config(); 
-const {connectToMongoDB} = require("./db/db")
-var usersRouter = require('./routes/usersRouter');
-var authRouter = require('./routes/authRouter');
+require('dotenv').config(); 
+const http = require('http'); 
+const path = require('path'); 
+const createError = require('http-errors'); 
+const cookieParser = require('cookie-parser'); 
+const logger = require('morgan');
+const { connectToMongoDB } = require('./db/db'); 
+const usersRouter = require('./routes/usersRouter');
+const authRouter = require('./routes/authRouter');
 
 var express = require('express');
 var app = express();
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
+// Route handlers
 app.use('/users', usersRouter);
-app.use('/auth',authRouter);
-// catch 404 and forward to error handler
+app.use('/auth', authRouter);
+
+// Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+// Error handler
 app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
+  // Set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
+
+  // Render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error'); 
 });
 
-const server = http.createServer(app);  //1
-server.listen(process.env.PORT,()=>{connectToMongoDB(),console.log("app is running on port 5000")});  //1 //2 process.env.PORT
+const server = http.createServer(app);
+
+server.listen(process.env.PORT || 5000, () => {
+  connectToMongoDB();
+  console.log(`App is running on port ${process.env.PORT || 5000}`);
+});
