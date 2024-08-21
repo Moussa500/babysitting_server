@@ -33,13 +33,14 @@ module.exports.getUserById = async (req, res) => {
 
 module.exports.addUser = async (req, res) => {
     try {
-        const { name, email, password, address, role } = req.body;
+        const { name, email, password, address, role,phone } = req.body;
         const user = new userModel({
             name,
             email,
             password,
             address,
             role,
+            phone
         });
         const userAdded = await user.save();
         res.status(201).json(userAdded);
