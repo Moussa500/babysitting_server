@@ -9,7 +9,6 @@ var usersRouter = require('./routes/usersRouter');
 require("dotenv").config(); //2
 const {connectToMongoDB} = require("./db/db")//3
 var app = express();
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

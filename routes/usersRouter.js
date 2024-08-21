@@ -1,13 +1,15 @@
-var express=require('express');
-const EndPoints=require('../constants/endPoints');
-var router=express.Router();
-const authController=require('../controller/usersController');
-router.get(EndPoints.User.getAllUsers,authController.getAllUsers);
-router.get(EndPoints.User.getUserById,authController.getUserById);
-router.get(EndPoints.User.searchUserByName,authController.searchUserByName);
-router.post(EndPoints.User.addUserBabbySitter,authController.addUserBabbySitter);
-router.post(EndPoints.User.addUserParent,authController.addUserParent);
-//router.post(EndPoints.User.addUserAdmin,authController.addUserClient);
-router.put(EndPoints.User.updateUserBabySitter,authController.updateUserBabySitter);
-router.delete(EndPoints.User.deleteUser,authController.deleteUser);
-module.exports=router;
+var express = require('express');
+const EndPoints = require('../constants/endPoints');
+var router = express.Router();
+const usersController = require('../controller/usersController');
+
+router.get(EndPoints.User.getAllUsers, usersController.getAllUsers);
+router.get(EndPoints.User.getUserById, usersController.getUserById);
+router.get(EndPoints.User.searchUserByName, usersController.searchUserByName);
+router.post(EndPoints.User.addUserBabySitter, usersController.addUserBabySitter);
+router.post(EndPoints.User.addUserParent, usersController.addUserParent);
+router.put(EndPoints.User.updateUserBabySitter, usersController.updateUserBabySitter);
+router.delete(EndPoints.User.deleteUser, usersController.deleteUser);
+router.post(EndPoints.User.addUser, usersController.addUser);
+
+module.exports = router;

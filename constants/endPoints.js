@@ -1,17 +1,16 @@
-const { updateUserBabySitter, searchUserByName } = require("../controller/authController");
-
 const EndPoints = {
     BaseUrl: 'http://localhost:5000/',
     User: {
         getAllUsers: '/getAllUsers',
         getUserById: '/getUserById/:id',
         searchUserByName: '/searchUserByName',
-        addUserBabbySitter: '/addUserBabbySitter',
+        addUserBabySitter: '/addUserBabySitter', // Fixed typo
         addUserAdmin: '/addUserAdmin',
-        addUserParent: 'addUserParent',
+        addUserParent: '/addUserParent', // Added missing slash
         updateUserBabySitter: '/updateUserBabySitter',
-        updateUser: 'updateUser/:id',
-        deleteUser: 'deleteUser/:id',
+        updateUser: '/updateUser/:id',
+        deleteUser: '/deleteUser/:id',
+        addUser: '/addUser'
     }
 };
 module.exports = EndPoints;
