@@ -31,22 +31,17 @@ module.exports.getUserById = async (req, res) => {
     }
 };
 
-module.exports.addUser = async (req, res) => {
-    try {
-        const { name, email, password, address, role,phone } = req.body;
-        const user = new userModel({
-            name,
-            email,
-            password,
-            address,
-            role,
-            phone
-        });
-        const userAdded = await user.save();
-        res.status(201).json(userAdded);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
+module.exports.addUser = async (userData) => {
+    const { name, email, password, address, role, phone } = userData;
+    const user = new userModel({
+        name,
+        email,
+        password,
+        address,
+        role,
+        phone
+    });
+    const userAdded = await user.save();
 };
 
 module.exports.addUserBabySitter = async (req, res) => {

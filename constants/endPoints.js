@@ -4,13 +4,15 @@ const EndPoints = {
         getAllUsers: '/getAllUsers',
         getUserById: '/getUserById/:id',
         searchUserByName: '/searchUserByName',
-        addUserBabySitter: '/addUserBabySitter', // Fixed typo
+        addUserBabySitter: '/addUserBabySitter',
         addUserAdmin: '/addUserAdmin',
-        addUserParent: '/addUserParent', // Added missing slash
+        addUserParent: '/addUserParent', 
         updateUserBabySitter: '/updateUserBabySitter',
         updateUser: '/updateUser/:id',
         deleteUser: '/deleteUser/:id',
-        addUser: '/addUser'
+        addUser: '/addUser',
+        login:'/login',
+        register:'/register'
     }
 };
 module.exports = EndPoints;
