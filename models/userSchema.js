@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const ScheduleSchema = require('./userSchema');
-const ChildrenSchema=require('./childrenSchema');
+const ChildrenSchema = require('./childrenSchema');
 const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema(
     {
@@ -10,14 +10,35 @@ const userSchema = new mongoose.Schema(
         address: { type: String, required: true },
         password: { type: String, required: true },
         role: { type: String, enum: ["parent", "babySitter", "admin"], required: true },
-        permissions: [{ type: String }],
-        availability: [ScheduleSchema],
+        permissions: [{
+            type: String, required: function () {
+                return this.role === "admin";
+            }
+        }],
+        availability: {
+            type: [ScheduleSchema], required: (function () {
+                this.role === "babySitter";
+            })
+        },
         rating: { type: Number },
-        price: { type: Number },
-        bio: { type: String },
-        children: [ChildrenSchema]
+        price: {
+            type: Number, required: function () {
+                return this.role === "babySitter";
+            },
+        },
+        bio: {
+            type: String, required: function () {
+                return this.role === "babySitter";
+            },
+        },
+        children: {
+            type: [ChildrenSchema], required: function () {
+                return this.role === "parent";
+            }
+        },
     },
     { timestamps: true }
+
 );
 userSchema.pre("save", async function (next) {
     try {

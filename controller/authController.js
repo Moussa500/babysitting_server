@@ -8,7 +8,7 @@ const secretKey=crypto.randomBytes(64).toString('hex');
 //User registration
 module.exports.register=async (req,res)=>{
 try {
-    const {name,email,password,address,role,phone}=req.body;
+    const { name, email, password, address, role, phone, availability, price, bio, children } = req.body;
     const existingUser=await User.findOne({email});
     if(existingUser){
         return res.status(400).json({message: "User already exists"});
@@ -19,10 +19,15 @@ try {
         password,
         address,
         role,
-        phone
+        phone,
+        availability,
+        price,
+        bio,
+        children,
     });
     res.status(201).json({message:'User registered successfully'});
 } catch (error) {
+    console.log({error});
     res.status(500).json({error:'Registration failed'});
 }
 }

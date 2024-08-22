@@ -32,40 +32,48 @@ module.exports.getUserById = async (req, res) => {
 };
 
 module.exports.addUser = async (userData) => {
-    const { name, email, password, address, role, phone } = userData;
+    const { name, email, password, role, phone,address } = userData;
+    let additionalFields = {};
+    switch (role) {
+        case 'parent':
+            const { children } = userData;
+            additionalFields = {
+                address,
+                children,
+            };
+            break;
+
+        case 'babySitter':
+            const { availability, price, bio } = userData;
+            additionalFields = {
+                availability,
+                price,
+                bio,
+            };
+            break;
+
+        case 'admin':
+            const { permissions } = userData;
+            additionalFields = {
+                permissions,
+            };
+            break;
+
+        default:
+            throw new Error('Invalid user role');
+    }
     const user = new userModel({
         name,
         email,
         password,
-        address,
         role,
-        phone
+        address,
+        phone,
+        ...additionalFields,
     });
     const userAdded = await user.save();
+    return userAdded;
 };
-
-module.exports.addUserBabySitter = async (req, res) => {
-    try {
-        const { name, email, password, address, availability, price, bio } = req.body;
-        const role = "babysitter";
-        const babysitter = new userModel({
-            name,
-            email,
-            password,
-            address,
-            availability,
-            price,
-            bio,
-            role,
-            rating: 0,
-        });
-        const babysitterAdded = await babysitter.save();
-        res.status(201).json(babysitterAdded);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 module.exports.addUserParent = async (req, res) => {
     try {
         const { name, email, password, address, children } = req.body;
