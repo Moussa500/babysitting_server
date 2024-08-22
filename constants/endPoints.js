@@ -11,12 +11,11 @@ const EndPoints = {
         updateUser: '/updateUser/:id',
         deleteUser: '/deleteUser/:id',
         addUser: '/addUser',
-        login: '/login',
-        register: '/register'
     },
     Auth: {
         login: '/login',
-        register: '/register'
+        register: '/register',
+        protected:'/protected'
     }
 };
 module.exports = EndPoints;
