@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const ScheduleSchema = require('./userSchema');
-const ChildrenSchema = require('./childrenSchema');
 const bcrypt = require("bcrypt");
 const userSchema = new mongoose.Schema(
     {
@@ -16,7 +14,10 @@ const userSchema = new mongoose.Schema(
             }
         }],
         availability: {
-            type: [ScheduleSchema], required: (function () {
+            type: [{
+                date: {type:Date,required:true},
+                location: {type:String,required:true},
+            }], required: (function () {
                 this.role === "babySitter";
             })
         },
@@ -32,7 +33,7 @@ const userSchema = new mongoose.Schema(
             },
         },
         children: {
-            type: [ChildrenSchema], required: function () {
+            type: [{ gender: { type: String, required: true }, age: { type: Number, required: true } }], required: function () {
                 return this.role === "parent";
             }
         },

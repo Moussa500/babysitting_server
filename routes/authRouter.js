@@ -2,10 +2,11 @@ const auth = require('../controller/authController');
 var express = require('express');
 var router = express.Router();
 const EndPoints=require('../constants/endPoints');
-const authenticateToken=require('../middlewares/authMiddleware')
-router.post(EndPoints.Auth.login,auth.login);
-router.post(EndPoints.Auth.register,auth.register);
+const authenticateToken=require('../middlewares/authMiddleware');
+const {userValidation}=require('../middlewares/userValidation');
 
+router.post(EndPoints.Auth.login,auth.login);
+router.post(EndPoints.Auth.register,userValidation,auth.register);
 router.get(EndPoints.Auth.protected,authenticateToken,async (req,res)=>{
     try {
         const userId=req.user.userId;

@@ -2,7 +2,20 @@ const userModel = require("../models/userSchema");
 
 module.exports.getAllUsers = async (req, res) => {
     try {
-        const userList = await userModel.find();
+        const { role } = req.body;
+        let userList = [];
+        switch (role) {
+            case "admin":
+            case "parent":
+            case "babySitter":
+                userList = await userModel.find({ role });
+                break;
+
+            default:
+                userList = await userModel.find();
+                break;
+        }
+
         res.status(200).json({ userList });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -30,9 +43,20 @@ module.exports.getUserById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
+module.exports.updateUserAdmin = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { name, email, password, phone, permission } = req.body;
+        const updatedUser = await userModel.findByIdAndUpdate(id, {
+            name, email, password, phone,
+        },)
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json({error:error.message})
+    }
+}
 module.exports.addUser = async (userData) => {
-    const { name, email, password, role, phone,address } = userData;
+    const { name, email, password, role, phone, address } = userData;
     let additionalFields = {};
     switch (role) {
         case 'parent':
@@ -74,32 +98,18 @@ module.exports.addUser = async (userData) => {
     const userAdded = await user.save();
     return userAdded;
 };
-module.exports.addUserParent = async (req, res) => {
-    try {
-        const { name, email, password, address, children } = req.body;
-        const role = "parent";
-        const parent = new userModel({
-            name,
-            email,
-            password,
-            address,
-            children,
-            role,
-        });
-        const parentAdded = await parent.save();
-        res.status(201).json(parentAdded);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-};
-
 module.exports.updateUserBabySitter = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, price, bio, address } = req.body;
+        const { name, email, phone, price, bio, date, location, address } = req.body;
 
         const updatedUser = await userModel.findByIdAndUpdate(id, {
-            name, email, phone, price, bio, address
+            name, email, phone, price, bio, address,
+            $addToSet: {
+                availability: {
+                    date, location
+                }
+            }
         }, { new: true });
 
         if (!updatedUser) {
@@ -110,16 +120,17 @@ module.exports.updateUserBabySitter = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 module.exports.updateUserParent = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, children, address } = req.body;
-
-        const updatedUser = await userModel.findByIdAndUpdate(id, {
-            name, email, phone, children, address
-        }, { new: true });
-
+        const { name, email, phone, age, gender, address } = req.body;
+        const updatedUser = await userModel.findOneAndUpdate({ _id: id }, {
+            name, email, phone, address, $push: {
+                children: { age, gender },
+            }
+        }, {
+            new: true
+        });
         if (!updatedUser) {
             throw new Error("User not found");
         }
