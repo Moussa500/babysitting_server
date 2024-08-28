@@ -15,7 +15,7 @@ module.exports.userValidation = async (req, res, next) => {
                     }
                 ),
             name: yup.string()
-                .required("Name is required")
+                .required("name is required")
                 .min(3, "The name should be at least 3 characters long")
                 .max(15, "The name should be less than 15 characters"),
             password: yup.string()

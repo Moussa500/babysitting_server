@@ -26,11 +26,13 @@
   "homepage": "https://github.com/Moussa500/babysitting_server#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
     "cookie-parser": "^1.4.6",
     "crypto": "^1.0.1",
     "debug": "^4.3.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "fs": "^0.0.1-security",
     "http-errors": "^2.0.0",
     "jade": "^1.11.0",
     "jsonwebtoken": "^9.0.2",

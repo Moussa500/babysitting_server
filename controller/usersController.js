@@ -10,12 +10,10 @@ module.exports.getAllUsers = async (req, res) => {
             case "babySitter":
                 userList = await userModel.find({ role });
                 break;
-
             default:
                 userList = await userModel.find();
                 break;
         }
-
         res.status(200).json({ userList });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -56,7 +54,8 @@ module.exports.updateUserAdmin = async (req, res) => {
     }
 }
 module.exports.addUser = async (userData) => {
-    const { name, email, password, role, phone, address } = userData;
+try {
+    const { name, email, password, role, phone, address,profilePic } = userData;
     let additionalFields = {};
     switch (role) {
         case 'parent':
@@ -93,10 +92,15 @@ module.exports.addUser = async (userData) => {
         role,
         address,
         phone,
+        profilePic,
+        status:"unbanned",
         ...additionalFields,
     });
     const userAdded = await user.save();
     return userAdded;
+} catch (error) {
+    console.log({error:error.message});
+}
 };
 module.exports.updateUserBabySitter = async (req, res) => {
     try {
@@ -139,12 +143,10 @@ module.exports.updateUserParent = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
 module.exports.deleteUser = async (req, res) => {
     try {
         const { id } = req.params;
         const deletedUser = await userModel.findByIdAndDelete(id);
-
         if (!deletedUser) {
             throw new Error("User not found");
         }

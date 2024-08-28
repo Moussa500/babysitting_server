@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema(
         phone: { type: String, required: true },
         address: { type: String, required: true },
         password: { type: String, required: true },
+        status:{type:String,enum:["banned","unbanned"],required:true},
+        profilePic:{type:String,default:"/images/user.png"},
         role: { type: String, enum: ["parent", "babySitter", "admin"], required: true },
         permissions: [{
             type: String, required: function () {

@@ -1,7 +1,6 @@
 const { updateUserParent } = require("../controller/usersController");
 
 const EndPoints = {
-    BaseUrl: 'http://localhost:5000/',
     User: {
         getAllUsers: '/getAllUsers',
         getUserById: '/getUserById/:id',
@@ -20,6 +19,7 @@ const EndPoints = {
     Permission:{
         getAdminPermission:'/getAdminPermission/:id',
         assignPermission:'/assignPermission/:email',
+        banAndUnbanUser:'/banAndUnbanUser',
     },
     booking:{
         bookSitter:'/bookSitter',
