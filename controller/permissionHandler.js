@@ -23,7 +23,7 @@ module.exports.assingPermissions = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
-module.exports.banAndUnbanUser = async (req, res) => {;
+module.exports.banAndUnbanUser = async (req, res) => {
     try {
         const { id } = req.body;
         const user = await userModel.findById(id);

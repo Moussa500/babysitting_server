@@ -1,5 +1,3 @@
-const { updateUserParent } = require("../controller/usersController");
-
 const EndPoints = {
     User: {
         getAllUsers: '/getAllUsers',

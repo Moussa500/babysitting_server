@@ -3,11 +3,11 @@ const User = require('../models/userSchema');
 const usersController = require('./usersController');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const crypto = require('crypto');
-const secretKey = crypto.randomBytes(64).toString('hex');
-//User registration
+require('dotenv').config();
+const secretKey = process.env.jwt_secret_key;
 module.exports.register = async (req, res) => {
     try {
+        console.log({secretKey});
         const { name, email, password, address, role, phone, availability, price, bio, children, permissions } = req.body;
         const profilePic = req.file ? req.file.path : null;
         console.log({ profilePic });
@@ -25,11 +25,11 @@ module.exports.register = async (req, res) => {
             permissions,
             profilePic,
         });
-        const token = jwt.sign({ userId: userAdded._id, email: userAdded.email, name: userAdded.name, phone: userAdded.phone, role: userAdded.role, address: userAdded.address, profilePic: userAdded.profilePic }, secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: userAdded._id, email: userAdded.email, name: userAdded.name, phone: userAdded.phone, role: userAdded.role, address: userAdded.address, profilePic: userAdded.profilePic },secretKey, { expiresIn: '1h' });
         res.status(201).json({ token });
     } catch (error) {
         console.log({ error });
-        res.status(500).json({ error: 'Registration failed' });
+        res.status(500).json({ error: error.message });
     }
 }
 //user login

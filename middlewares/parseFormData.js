@@ -1,15 +1,15 @@
 const parseFormData = (req, res, next) => {
-    if (req.body.availability) {
-      try {
-        req.body.availability = JSON.parse(req.body.availability);
+    try {
+        if (req.body.availability) {
+            req.body.availability = JSON.parse(req.body.availability);
+        }
+        if (req.body.children) {
+            req.body.children = JSON.parse(req.body.children);
+        }
         next();
-      } catch (error) {
-        res.status(500).json({ message: 'Error parsing availability data', error });
-      }
-    } else {
-      next();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-  };
-  
-  module.exports = parseFormData;
-  
+};
+
+module.exports = parseFormData;

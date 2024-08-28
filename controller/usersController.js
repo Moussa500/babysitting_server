@@ -99,7 +99,7 @@ try {
     const userAdded = await user.save();
     return userAdded;
 } catch (error) {
-    console.log({error:error.message});
+    throw new Error(error.message);
 }
 };
 module.exports.updateUserBabySitter = async (req, res) => {
