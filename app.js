@@ -7,12 +7,11 @@ const http = require("http");
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/usersRouter');
 var authRouter = require('./routes/authRouter');
-var permissionRoute = require('./routes/permissionRoute');
-var bookingRoute = require('./routes/bookingRoute');
-var articleRoute = require('./routes/articleRouter');
-require("dotenv").config();
-const { connectToMongoDB } = require("./db/db");
-const { Console } = require('console');
+var permissionRoute=require('./routes/permissionRoute');
+var bookingRoute=require('./routes/bookingRoute');
+var articleRoute=require('./routes/articleRouter');
+require("dotenv").config(); 
+const { connectToMongoDB } = require("./db/db")
 var app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,9 +21,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/auth', authRouter);
-app.use('/permission', permissionRoute);
-app.use('/booking', bookingRoute);
-app.use('/article', articleRoute);
+app.use('/permission',permissionRoute);
+app.use('/booking',bookingRoute);
+app.use('/article',articleRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
@@ -39,4 +38,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 const server = http.createServer(app);  //1
-server.listen(process.env.PORT, () => { connectToMongoDB(), Console.log("app is running on port 5000") });
+server.listen(process.env.PORT, () => { connectToMongoDB(), console.log("app is running on port 5000") });
