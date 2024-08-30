@@ -11,7 +11,8 @@ var permissionRoute = require('./routes/permissionRoute');
 var bookingRoute = require('./routes/bookingRoute');
 var articleRoute = require('./routes/articleRouter');
 require("dotenv").config();
-const { connectToMongoDB } = require("./db/db")
+const { connectToMongoDB } = require("./db/db");
+const { Console } = require('console');
 var app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -38,4 +39,4 @@ app.use(function (err, req, res, next) {
   res.render('error');
 });
 const server = http.createServer(app);  //1
-server.listen(process.env.PORT, () => { connectToMongoDB(), res.status(200).json({ output: "app is running" }) });
+server.listen(process.env.PORT, () => { connectToMongoDB(), Console.log("app is running on port 5000") });
