@@ -40,3 +40,21 @@ module.exports.updateBookingStatus=async(req,res)=>{
         res.status(500).json({error: error.message});
     }
 }
+module.exports.getBookingByParent=async(req,res)=>{
+    try {
+        const {parentID}=req.params;
+        const bookingList=await bookingModel.find({parentID});
+        res.status(201).json({bookingList});
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}
+module.exports.getBookingByBabySitter=async(req,res)=>{
+    try {
+        const {babySitterID}=req.params;
+        const bookingList=await bookingModel.find({babySitterID});
+        res.status(201).json({bookingList});
+    } catch (error) {
+        res.status(500).json({error:error.message});
+    }
+}

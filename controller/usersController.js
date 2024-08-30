@@ -1,3 +1,4 @@
+const { number } = require("yup");
 const userModel = require("../models/userSchema");
 
 module.exports.getAllUsers = async (req, res) => {
@@ -44,7 +45,7 @@ module.exports.getUserById = async (req, res) => {
 module.exports.updateUserAdmin = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, password, phone, permission } = req.body;
+        const { name, email, password, phone } = req.body;
         const updatedUser = await userModel.findByIdAndUpdate(id, {
             name, email, password, phone,
         },)
@@ -67,11 +68,12 @@ try {
             break;
 
         case 'babySitter':
-            const { availability, price, bio } = userData;
+            const { availability, price, bio,cv } = userData;
             additionalFields = {
                 availability,
                 price,
                 bio,
+                cv
             };
             break;
 
@@ -105,14 +107,12 @@ try {
 module.exports.updateUserBabySitter = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name, email, phone, price, bio, date, location, address } = req.body;
-
+        const { name,email, phone,price,bio,day,address } = req.body;
+        const {cv}=req.file;
         const updatedUser = await userModel.findByIdAndUpdate(id, {
-            name, email, phone, price, bio, address,
+            name, email, phone, price, bio, address,cv,
             $addToSet: {
-                availability: {
-                    date, location
-                }
+                availability:day
             }
         }, { new: true });
 

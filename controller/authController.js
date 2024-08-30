@@ -1,4 +1,3 @@
-const express = require('express');
 const User = require('../models/userSchema');
 const usersController = require('./usersController');
 const jwt = require('jsonwebtoken');
@@ -7,10 +6,9 @@ require('dotenv').config();
 const secretKey = process.env.jwt_secret_key;
 module.exports.register = async (req, res) => {
     try {
-        console.log({secretKey});
         const { name, email, password, address, role, phone, availability, price, bio, children, permissions } = req.body;
-        const profilePic = req.file ? req.file.path : null;
-        console.log({ profilePic });
+        const profilePic = req.files && req.files.profilePic ? req.files.profilePic[0].path : null;
+        const cv = req.files && req.files.cv ? req.files.cv[0].path : null;
         const userAdded = await usersController.addUser({
             name,
             email,
@@ -24,8 +22,9 @@ module.exports.register = async (req, res) => {
             children,
             permissions,
             profilePic,
+            cv,
         });
-        const token = jwt.sign({ userId: userAdded._id, email: userAdded.email, name: userAdded.name, phone: userAdded.phone, role: userAdded.role, address: userAdded.address, profilePic: userAdded.profilePic },secretKey, { expiresIn: '1h' });
+        const token = jwt.sign({ userId: userAdded._id, email: userAdded.email, name: userAdded.name, phone: userAdded.phone, role: userAdded.role, address: userAdded.address, profilePic: userAdded.profilePic }, secretKey, { expiresIn: '1h' });
         res.status(201).json({ token });
     } catch (error) {
         console.log({ error });

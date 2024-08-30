@@ -9,6 +9,7 @@ var usersRouter = require('./routes/usersRouter');
 var authRouter = require('./routes/authRouter');
 var permissionRoute=require('./routes/permissionRoute');
 var bookingRoute=require('./routes/bookingRoute');
+var articleRoute=require('./routes/articleRouter');
 require("dotenv").config(); 
 const { connectToMongoDB } = require("./db/db")
 var app = express();
@@ -22,6 +23,7 @@ app.use('/users', usersRouter);
 app.use('/auth', authRouter);
 app.use('/permission',permissionRoute);
 app.use('/booking',bookingRoute);
+app.use('/article',articleRoute);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));

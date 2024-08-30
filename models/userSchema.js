@@ -7,19 +7,16 @@ const userSchema = new mongoose.Schema(
         phone: { type: String, required: true },
         address: { type: String, required: true },
         password: { type: String, required: true },
-        status:{type:String,enum:["banned","unbanned"],required:true},
-        profilePic:{type:String,default:"/images/user.png"},
+        status: { type: String, enum: ["banned", "unbanned"], required: true },
+        profilePic: { type: String, default: "/images/user.png" },
         role: { type: String, enum: ["parent", "babySitter", "admin"], required: true },
         permissions: [{
             type: String, required: function () {
-                return this.role === "admin";
+                return this.role === "babySitter";
             }
         }],
         availability: {
-            type: [{
-                date: {type:Date,required:true},
-                location: {type:String,required:true},
-            }], required: (function () {
+            type: [Number], required: (function () {
                 this.role === "babySitter";
             })
         },
@@ -33,6 +30,11 @@ const userSchema = new mongoose.Schema(
             type: String, required: function () {
                 return this.role === "babySitter";
             },
+        },
+        cv: {
+            type: String, required: function () {
+                return this.role === "babySitter";
+            }
         },
         children: {
             type: [{ gender: { type: String, required: true }, age: { type: Number, required: true } }], required: function () {

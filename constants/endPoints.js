@@ -1,3 +1,5 @@
+const { getBookingByBabysitter } = require("../controller/bookingController");
+
 const EndPoints = {
     User: {
         getAllUsers: '/getAllUsers',
@@ -22,6 +24,13 @@ const EndPoints = {
     booking:{
         bookSitter:'/bookSitter',
         cancelBooking:'/cancelBooking',
+        getBookingByParent:'/getBookingByParent/:parentID',
+        getBookingByBabysitter:'/getBookingByBabySitter/:babySitterID'
+    },
+    Article:{
+        postArticle:'/postArticle',
+        getArticles:'/getArticles',
+        updateArticle:'/updateArticle'
     }
 };
 module.exports = EndPoints;

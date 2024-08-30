@@ -6,5 +6,5 @@ const upload = require("../middlewares/uploadFile");
 const parseFormData=require('../middlewares/parseFormData');
 const { userValidation } = require('../middlewares/userValidation');
 router.post(EndPoints.Auth.login,auth.login);
-router.post(EndPoints.Auth.register,upload.single("profilePic"),userValidation,parseFormData,auth.register);
+router.post(EndPoints.Auth.register,upload.fields([{name:'profilePic',maxCount:1},{name:'cv',maxCount:1}]),userValidation,parseFormData,auth.register);
 module.exports = router;

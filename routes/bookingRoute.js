@@ -5,4 +5,6 @@ const EndPoints=require('../constants/endPoints');
 const {protect} = require('../middlewares/authMiddleware');
 route.post(EndPoints.booking.bookSitter,protect,bookingController.bookSitter);
 route.delete(EndPoints.booking.cancelBooking,protect,bookingController.cancelBooking);
+route.get(EndPoints.booking.getBookingByParent,bookingController.getBookingByParent);
+route.get(EndPoints.booking.getBookingByBabysitter,bookingController.getBookingByBabySitter);
 module.exports=route;
