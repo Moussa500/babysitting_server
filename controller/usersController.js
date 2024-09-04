@@ -51,68 +51,69 @@ module.exports.updateUserAdmin = async (req, res) => {
         },)
         res.status(200).json(updatedUser);
     } catch (error) {
-        res.status(500).json({error:error.message})
+        res.status(500).json({ error: error.message })
     }
 }
 module.exports.addUser = async (userData) => {
-try {
-    const { name, email, password, role, phone, address,profilePic } = userData;
-    let additionalFields = {};
-    switch (role) {
-        case 'parent':
-            const { children } = userData;
-            additionalFields = {
-                address,
-                children,
-            };
-            break;
+    try {
+        const { name, email, password, role, phone, address, profilePic } = userData;
+        let additionalFields = {};
+        switch (role) {
+            case 'parent':
+                const { children } = userData;
+                additionalFields = {
+                    address,
+                    children,
+                };
+                break;
 
-        case 'babySitter':
-            const { availability, price, bio,cv } = userData;
-            additionalFields = {
-                availability,
-                price,
-                bio,
-                cv
-            };
-            break;
+            case 'babySitter':
+                const { availability, price, bio, cv } = userData;
+                additionalFields = {
+                    availability,
+                    price,
+                    bio,
+                    cv
+                };
+                break;
 
-        case 'admin':
-            const { permissions } = userData;
-            additionalFields = {
-                permissions,
-            };
-            break;
+            case 'admin':
+                const { permissions } = userData;
+                additionalFields = {
+                    permissions,
+                };
+                break;
 
-        default:
-            throw new Error('Invalid user role');
+            default:
+                throw new Error('Invalid user role');
+        }
+        const user = new userModel({
+            name,
+            email,
+            password,
+            role,
+            address,
+            phone,
+            profilePic,
+            favorites: [],
+            status: "unbanned",
+            ...additionalFields,
+        });
+        const userAdded = await user.save();
+        return userAdded;
+    } catch (error) {
+        throw new Error(error.message);
     }
-    const user = new userModel({
-        name,
-        email,
-        password,
-        role,
-        address,
-        phone,
-        profilePic,
-        status:"unbanned",
-        ...additionalFields,
-    });
-    const userAdded = await user.save();
-    return userAdded;
-} catch (error) {
-    throw new Error(error.message);
-}
 };
 module.exports.updateUserBabySitter = async (req, res) => {
     try {
         const { id } = req.params;
-        const { name,email, phone,price,bio,day,address } = req.body;
-        const {cv}=req.file;
+        const { name, email, phone, price, bio, day, address } = req.body;
+        const { cv } = req.file;
         const updatedUser = await userModel.findByIdAndUpdate(id, {
-            name, email, phone, price, bio, address,cv,
+            name, email, phone, price, bio, address, cv,
             $addToSet: {
-                availability:day
+                availability: day
             }
         }, { new: true });
 
@@ -155,3 +156,5 @@ module.exports.deleteUser = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+

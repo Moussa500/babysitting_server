@@ -1,4 +1,5 @@
 const { getBookingByBabysitter } = require("../controller/bookingController");
+const { getUserFavorites, addFavorite, deleteFavorite } = require("../controller/favoriteController");
 
 const EndPoints = {
     User: {
@@ -10,6 +11,11 @@ const EndPoints = {
         updateUserParent:'/updateUserParent/:id',
         deleteUser: '/deleteUser/:id',
         addUser: '/addUser',
+    },
+    Favorite:{
+        getUserFavorites:'/getFavorites/:id',
+        addFavorite:'/addFavorite',
+        deleteFavorite:'/deleteFavorite',
     },
     Auth: {
         login: '/login',
